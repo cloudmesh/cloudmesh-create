@@ -18,24 +18,40 @@
 
 * https://github.com/cloudmesh/cloudmesh.cmd5
 
-The cloudmesh command create is a sample command so you can see how easy it is to generate a command. You can clone is and replace the "create" with the command name you like.
+## Installation
 
-However there is an easier way, with 
+Cloudmesh craete can be installed with 
 
-    pip install cloudmesh-sys
+```bash
+pip install cloudmesh-create
+```
 
-Now you need to clone the cloudmesh-common repo
+## Source code 
 
-    git clone ...
+The source code is located at
 
-Next you can generate comands in directories with 
+* <https://github.com/cloudmesh/create>
 
-    cms sys generate xyz
+If you download it and make modifications as deevloper, it can be installed with 
 
-which will create a directory cloudmesh-xyz, where the new command xyz is defined.
-You can cd into that command and install it with 
+```bash
+cd create
+pip install - e .
+```
 
-    make local
+## Manual page
+
+The manula page  you must also check out cloudmesh-common next to cloudmesh-create.
+
+can be updated with 
+
+TODO: verify
+
+```bash
+make manual
+```
+
+
 
 
 ## Manual Page

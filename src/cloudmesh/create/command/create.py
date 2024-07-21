@@ -110,7 +110,7 @@ class CreateCommand(PluginCommand):
         map_parameters(arguments, 
                        "provider",
                        "gpus",
-                       "servers,
+                       "servers",
                        "config",
                        "name")
 

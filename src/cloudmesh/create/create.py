@@ -48,3 +48,17 @@ class Create:
             None
         """
         print("list", parameter)
+
+    def create(self, arguments):
+        """
+        Perform a create operation.
+
+        This method performs a create operation based on the provided arguments.
+
+        Args:
+            arguments (dict): The arguments for the create operation.
+
+        Returns:
+            None
+        """
+        print("create", arguments)

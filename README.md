@@ -59,38 +59,6 @@ The code is located in
 
 <!-- START-MANUAL -->
 ```
-Command create
-==============
-
-::
-
-  Usage:
-        create --file=FILE
-        create list
-        create [--parameter=PARAMETER] [--experiment=EXPERIMENT] [COMMAND...]
-
-  This command does some useful things.
-
-  Arguments:
-      FILE   a file name
-      PARAMETER  a parameterized parameter of the form "a[0-3],a5"
-
-  Options:
-      -f      specify the file
-
-  Description:
-
-    > cms create --parameter="a[1-2,5],a10"
-    >    example on how to use Parameter.expand. See source code at
-    >      https://github.com/cloudmesh/cloudmesh-create/blob/main/cloudmesh/create/command/create.py
-    >    prints the expanded parameter as a list
-    >    ['a1', 'a2', 'a3', 'a4', 'a5', 'a10']
-
-    > create exp --experiment=a=b,c=d
-    > example on how to use Parameter.arguments_to_dict. See source code at
-    >      https://github.com/cloudmesh/cloudmesh-create/blob/main/cloudmesh/create/command/create.py
-    > prints the parameter as dict
-    >   {'a': 'b', 'c': 'd'}
-
+*** No help on create
 ```
 <!-- STOP-MANUAL -->

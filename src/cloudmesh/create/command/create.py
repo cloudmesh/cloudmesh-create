@@ -75,6 +75,28 @@ class CreateCommand(PluginCommand):
             >   data to show how much the cluster is costing and how long it is running.
             >   Cost data per hour is added.
 
+            Creadentials
+
+                credential management is critical for the cloud and can be obtained through 
+                the .cloudmesh/cloudmesh.yaml file.
+
+                I forgot how to use it so we may want to look up the format in mor detail 
+                and adapt accordingly.
+
+                We can also use another method .. one that would come with the provider recommendation.
+
+                Our requirements include
+
+                1. the credentials must not be stored in the git repo so that accidential checkins are avoided.
+                2. the credentials must be stored in a secure way in ~/.cloudmesh/cloudmesh.yaml or another file in that directory.
+                3. ~/.cloudmesh must be set to read only for the user
+                4. the credentials must be encrypted.
+                5. the credentials must be decrypted on the fly when they are used
+                6. any code we write as example must not have the credentials hardcoded in the code or suggest to
+                   do so.
+
+                We may use the cloudmesh common library for this.
+
 
         """
 

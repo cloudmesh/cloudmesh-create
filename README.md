@@ -48,7 +48,7 @@ can be updated with
 TODO: verify
 
 ```bash
-make manual
+make readme
 ```
 
 
@@ -59,7 +59,7 @@ make manual
 <!-- START-MANUAL -->
 ```
 Command create
-===========
+==============
 
 ::
 

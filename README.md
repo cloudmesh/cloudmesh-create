@@ -43,16 +43,17 @@ pip install - e .
 
 The manula page  you must also check out cloudmesh-common next to cloudmesh-create.
 
-can be updated with 
-
-TODO: verify
+To modify the manual page in this readme, edit the code and call. 
 
 ```bash
 make readme
 ```
 
+The code is located in 
 
+* cloudmesh/create/command/create.py
 
+~
 
 ## Manual Page
 

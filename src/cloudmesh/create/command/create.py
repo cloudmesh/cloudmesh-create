@@ -18,38 +18,65 @@ class CreateCommand(PluginCommand):
         ::
 
           Usage:
-                create --file=FILE
+                create [--provider=PROVIDER] [--gpus=GPU] [--servers=SERVERS] [--config=CONFIG] --name=NAME
                 create list
-                create [--parameter=PARAMETER] [--experiment=EXPERIMENT] [COMMAND...]
-
-          This command does some useful things.
+                
+          This command creates a cluster on a given cloud provider. You can either use the commandline 
+          arguments to specify the details of the cluster or you can use the yaml file.
+          The details of the cluster will be stored in ~/.cloudmesh/clusters.yaml
 
           Arguments:
-              FILE   a file name
-              PARAMETER  a parameterized parameter of the form "a[0-3],a5"
+              SERVERS   the number of servers to create [default: 1]
+              PROVIDER  the cloud provider, AWS, AZURE, GOOGLE [default: AWS]
+              GPUS      the number of gpus per server [default: 0]
+              CONFIG    a YAML configuration file
+              NAME      the name of the cluster
 
           Options:
               -f      specify the file
 
           Description:
 
-            > cms create --parameter="a[1-2,5],a10"
-            >    example on how to use Parameter.expand. See source code at
-            >      https://github.com/cloudmesh/cloudmesh-create/blob/main/cloudmesh/create/command/create.py
-            >    prints the expanded parameter as a list
-            >    ['a1', 'a2', 'a3', 'a4', 'a5', 'a10']
+            > cms create --provider=aws --servers=1 --gpus=1
+            >   creates a cluster on aws with 1 server and 1 gpu
+            >   the details of the cluster will be addedto a yaml file in the 
+            >   ~/.cloudmesh/clusters.yaml 
 
-            > create exp --experiment=a=b,c=d
-            > example on how to use Parameter.arguments_to_dict. See source code at
-            >      https://github.com/cloudmesh/cloudmesh-create/blob/main/cloudmesh/create/command/create.py
-            > prints the parameter as dict
-            >   {'a': 'b', 'c': 'd'}
+            > cms create --config=config.yaml
+            >   creates a cluster based on the configuration in the yaml file
+
+            > The format of the yamls file is as follows: 
+            
+            >    cluster:
+            >    - name: mycluster-aws
+            >      provider: aws
+            >      servers: 1
+            >      gpus: 1
+
+            > Note that multiple clusters can be specified in the yaml file
+            
+            Format of the yaml file:
+
+            cluster:
+                - name: mycluster-aws
+                  provider: aws
+                  servers: 1
+                  gpus: 1
+                - name: mycluster-azure
+                  provider: aws
+                  servers: 1
+                  gpus: 1
+
+            > cms create list
+            >   lists the clusters that are available in the ~/.cloudmesh/clusters.yaml
+            >   In addition to the definition of the cluster a status is also stored that 
+            >   is aquired for the cluster from the cloud provider. THis includes if the cluster 
+            >   is running, paused, or terminated. It also includes information such as accounting 
+            >   data to show how much the cluster is costing and how long it is running.
+            >   Cost data per hour is added.
+
 
         """
-
-        # arguments.FILE = arguments['--file'] or None
-
-        # switch debug on
 
         variables = Variables()
         variables["debug"] = True

@@ -1,7 +1,7 @@
 import boto3
 import time
 
-likely not what we need search AWS and HPC Cluster
+# likely not what we need search AWS and HPC Cluster
 
 class HPCCluster:
   

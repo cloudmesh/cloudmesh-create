@@ -15,8 +15,7 @@
 [![macOS](https://img.shields.io/badge/OS-macOS-lightgrey.svg)](https://www.apple.com/macos)
 [![Windows](https://img.shields.io/badge/OS-Windows-blue.svg)](https://www.microsoft.com/windows)
 
-
-* https://github.com/cloudmesh/cloudmesh.cmd5
+Status: This cloudmesh module is not yet working and is only a draft.
 
 ## Installation
 

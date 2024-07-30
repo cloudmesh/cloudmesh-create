@@ -20,7 +20,9 @@
 
 ## Installation
 
-Cloudmesh craete can be installed with 
+Note: pip install is not yet working, please use source install
+
+Cloudmesh craete can be installed with  
 
 ```bash
 pip install cloudmesh-create
@@ -35,6 +37,13 @@ The source code is located at
 If you download it and make modifications as developer, it can be installed with 
 
 ```bash
+# set up general cloudmesh
+pip install cloudmesh-common
+pip install cloudmesh-vpn
+pip install cloudmesh-ee
+
+# set up create from source
+git clone https://github.com/cloudmesh/cloudmesh-create.git
 cd create
 pip install - e .
 ```

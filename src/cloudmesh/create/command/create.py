@@ -42,7 +42,7 @@ class CreateCommand(PluginCommand):
 
           Description:
 
-          > cms create --provider=aws --servers=1 --gpus=1
+          > cms create --provider=aws --servers=1 --gpus=1 --name=eks-cluster
           >   creates a cluster on aws with 1 server and 1 gpu
           >   the details of the cluster will be addedto a yaml file in the 
           >   ~/.cloudmesh/clusters.yaml 

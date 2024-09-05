@@ -1,27 +1,10 @@
-cluster:
-  clustername: eks-4
-  rolearn: arn:aws:iam::123456:role/eksClusterRole
-  subnetids:  
-    - subnet-1
-    - subnet-2    
-  securitygroupids: 
-    - sg-1
-nodegroups:
-  - name: ngrp1
-    instanceType: t2.micro
-    desiredCapacity: 1
-    minSize: 1
-    maxSize: 1
-    volumeSize: 10
-    amiType: 'AL2_x86_64'
-    capacityType: 'ON_DEMAND'
-    noderolearn: arn:aws:iam::123456:role/AmazonEKSNodeRole
-  - name: ngrp2
-    instanceType: t2.small
-    desiredCapacity: 1
-    minSize: 1
-    maxSize: 1
-    volumeSize: 20
-    amiType: 'AL2_x86_64'
-    capacityType: 'ON_DEMAND'
-    noderolearn: arn:aws:iam::123456:role/AmazonEKSNodeRole
+cloudmesh:
+  cluster:
+    aws: 
+      - name: cluster-1
+        nodegroups:
+          - name: workers
+            instanceType: t2.micro # instance type
+            desiredCapacity: 2 # number of nodes
+            volumeSize: 20 #min size in GB
+            capacityType: 'SPOT' # SPOT or ON_DEMAND

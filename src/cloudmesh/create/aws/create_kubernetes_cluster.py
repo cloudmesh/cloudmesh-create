@@ -32,6 +32,7 @@ class deploy_cluster:
         self.config = config
 
         if dryrun:
+            Console.msg(f"DRY RUN of create {config}")
             return
 
         # Create Cluster 
@@ -334,10 +335,11 @@ class deploy_cluster:
         print("Cluster information dumped to file: ", config_file)
     
 
-    def create_default_cluster(self, cluster=None, 
-                        role_arn=None,
-                        subnet_ids=None
-                        ):
+    def create_default_cluster(self,
+                               cluster=None,
+                               role_arn=None,
+                               subnet_ids=None
+                              ):
         """
         Creates an Amazon Elastic Kubernetes Service (EKS) cluster.
         Args:

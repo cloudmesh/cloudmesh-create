@@ -72,13 +72,10 @@ class CreateCommand(PluginCommand):
         arguments.config = path_expand("./config.yaml")
 
 
-        arguments.dryrun = dryrun = True
-
-
 
         if arguments.provider == 'aws' and arguments.kind == "kubernetes":
             from cloudmesh.create.aws.create_kubernetes_cluster import deploy_cluster
-            cluster = deploy_cluster(config=arguments.config, dryrun=dryrun)
+            cluster = deploy_cluster(config=arguments.config, dryrun=arguments.dryrun)
         else:
             Console.error("This cluser provider and kind are not yet supported")
             return ""
@@ -93,6 +90,6 @@ class CreateCommand(PluginCommand):
         # cluster.list("just calling list without parameter")
         elif arguments.create:
             print("calling create")
-            #cluster.create(arguments.name, detail=True)
+            cluster.create(name=arguments.name, detail=True, dryrun=arguments.dryrun)
 
         return ""

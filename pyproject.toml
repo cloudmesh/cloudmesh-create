@@ -52,6 +52,8 @@ classifiers = [
 
 dependencies = [
     "cloudmesh-cmd5",
+    "boto3",
+    "botocore"
 ]
 
 [project.urls]

@@ -6,10 +6,15 @@ import botocore
 
 from cloudmesh.common.StopWatch import StopWatch
 from cloudmesh.common.console import Console
+from cloudmesh.common.util import path_expand
+from cloudmesh.common.dotdict import dotdict
+
+from cloudmesh.common.FlatDict import FlatDict
+
 
 class deploy_cluster:
         
-    def __init__(self, filename, dt=600):
+    def __init__(self, config=None, dt=600, dryrun=False):
         """
         Initializes the Create class.
         Args:
@@ -19,12 +24,19 @@ class deploy_cluster:
             FileNotFoundError: If the specified file does not exist.
         """
 
+        if config is None:
+            config = path_expand(config)
         try:
-            with open(filename) as file:
-              config_data = yaml.load(file, Loader=yaml.FullLoader)
+
+            self.config = FlatDict()
+            self.config.loadf(config)
+
         except FileNotFoundError:
             Console.error("The specified file does not exist.")
             sys.exit()
+
+        if dryrun:
+            return
 
         # Create Cluster 
 
@@ -40,7 +52,7 @@ class deploy_cluster:
             Console.error(f"Error getting EKS cluster role: {e}")
             sys.exit()
         
-        cluster_name = (config_data.get('cloudmesh')['cluster']['aws'][0]['name'])
+        cluster_name = (self.config.get('cloudmesh')['cluster']['aws'][0]['name'])
 
         try:
             subnet_ids = self.get_subnets_for_eks() 
@@ -81,7 +93,7 @@ class deploy_cluster:
             Console.error(f"Error getting EKS Node role: {e}")
             sys.exit()
 
-        for ng in config_data.get('cloudmesh')['cluster']['aws'][0]['nodegroups']:
+        for ng in self.config.get('cloudmesh')['cluster']['aws'][0]['nodegroups']:
           
           node_group_name = (ng)['name']
           instance_type = (ng)['instanceType']
@@ -102,7 +114,7 @@ class deploy_cluster:
             Console.error(f"Error creating EKS node group: {e}")
             sys.exit()
         
-        self.cluster_info(cluster_name)
+        self.info(cluster_name)
 
 
 
@@ -210,7 +222,7 @@ class deploy_cluster:
 
         return response['cluster']['status']
 
-    def delete_nodegroup(cluster_name, nodegroup_name):
+    def delete_nodegroup(self, cluster_name, nodegroup_name):
         """
         Deletes an Amazon EKS node group.
         Args:
@@ -235,7 +247,7 @@ class deploy_cluster:
         
         return response
 
-    def delete_cluster(cluster_name):
+    def delete_cluster(self, cluster_name):
         """
         Deletes an Amazon EKS cluster.
         Args:
@@ -257,21 +269,35 @@ class deploy_cluster:
         
         return response
 
-    def cluster_info(self, cluster_name, detail=True): 
+    def view_config(self):
+
+        print(self.config)
+
+
+    def info(self, name=None, detail=True, dryrun=False):
         """
         Gets information about an Amazon EKS cluster.
         Args:
-            cluster_name (str): The name of the EKS cluster.
+            name (str): The name of the EKS cluster.
             detail (bool): A boolean value that determines if additional details are included in the response.
         Returns:
             dict: A dictionary containing the response from the describe_cluster API call.
         Raises:
             botocore.exceptions.ClientError: If there is an error getting the EKS cluster information.
         """
+        if dryrun:
+            Console.msg(f"INFO DRYRUN {name}")
+
+            self.view_config()
+
+            return
+
+
+
 
         eks_client = boto3.client('eks')
         try:    
-            response = eks_client.describe_cluster(name=cluster_name)
+            response = eks_client.describe_cluster(name=name)
             response = yaml.dump(response['cluster'])
         except botocore.exceptions.ClientError as e:
             Console.error(f"Error getting EKS cluster info: {e}")
@@ -280,7 +306,7 @@ class deploy_cluster:
         print(response)
         return response
 
-    def export_cluster_config(cluster_name, config_file):
+    def export_cluster_config(self, cluster_name, config_file):
         """
         Dumps the configuration of an Amazon EKS cluster to a file.
         Args:
@@ -368,7 +394,7 @@ class deploy_cluster:
 
         return response["Role"]["Arn"]
 
-    def create_eks_iam_policy(policy_name):
+    def create_eks_iam_policy(self, policy_name):
         """
         Creates an IAM policy for an Amazon EKS cluster.
         Args:
@@ -479,7 +505,7 @@ class deploy_cluster:
     #     # Initialize the Create class
     #     create_instance.__init__()
 
-deploy_cluster('../../../etc/cluster-config.yaml')
+# deploy_cluster('../../../etc/cluster-config.yaml')
 
 #deploy_cluster.cluster_info('cluster-2')
 
@@ -492,6 +518,3 @@ deploy_cluster('../../../etc/cluster-config.yaml')
 
 #deploy_cluster.delete_cluster('cluster-10')
 
-    # Author:
-    #     Harshad Pitkar
-    # """

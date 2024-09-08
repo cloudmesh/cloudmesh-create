@@ -35,10 +35,7 @@ class Cluster:
             Console.msg(f"DRY RUN of create {config}")
             return
 
-
-
-
-    def setup_cluster(self):
+    def setup(self):
 
         # Create Cluster 
 
@@ -73,7 +70,7 @@ class Cluster:
 
         # Check if the cluster is active
         StopWatch.start("cluster")
-        while  self.cluster_status(cluster_name) != 'ACTIVE':
+        while  self.status(cluster_name) != 'ACTIVE':
             print('Waiting for Cluster to be in active state')
             time.sleep(60)
         StopWatch.stop("cluster")
@@ -108,9 +105,9 @@ class Cluster:
           role_arn = noderole_arn
           
           try:
-            response = self.create_node_group(cluster_name, node_group_name, instance_type, 
-                                              minSize, maxSize, desiredSize, diskSize, capacityType, 
-                                              subnet_ids, role_arn)
+            response = self.create_nodegroup(cluster_name, node_group_name, instance_type,
+                                             minSize, maxSize, desiredSize, diskSize, capacityType,
+                                             subnet_ids, role_arn)
             print(response)
           except botocore.exceptions.ClientError as e:
             Console.error(f"Error creating EKS node group: {e}")
@@ -119,40 +116,17 @@ class Cluster:
         self.info(cluster_name)
 
 
-
-    def create_eks_cluster(self, cluster_name, role_arn, subnet_ids, security_group_ids):
-        """
-        Creates an Amazon Elastic Kubernetes Service (EKS) cluster.
-        Args:
-            cluster_name (str): The name of the cluster.
-            role_arn (str): The Amazon Resource Name (ARN) of the IAM role that provides permissions for the EKS cluster.
-            subnet_ids (list): A list of subnet IDs where the EKS cluster will be created.
-            security_group_ids (list): A list of security group IDs associated with the EKS cluster.
-        Returns:
-            dict: A dictionary containing the response from the create_cluster API call.
-        Raises:
-            botocore.exceptions.ClientError: If there is an error creating the EKS cluster.
-        """
-
-        eks_client = boto3.client('eks')
-
-        try:
-            response = eks_client.create_cluster(
-                name=cluster_name,
-                roleArn=role_arn,
-                resourcesVpcConfig={
-                    'subnetIds': subnet_ids
-                }
-            )
-        except botocore.exceptions.ClientError as e:
-            Console.error(f"Error creating EKS cluster: {e}")
-            sys.exit()
-               
-        return response
-
-
-    def create_node_group(self, cluster_name, node_group_name, instance_type, minSize, maxSize, 
-                          desiredSize, diskSize, capacityType, subnet_ids, role_arn):
+    def create_nodegroup(self,
+                         cluster_name,
+                         node_group_name,
+                         instance_type,
+                         minSize,
+                         maxSize,
+                         desiredSize,
+                         diskSize,
+                         capacityType,
+                         subnet_ids,
+                         role_arn):
         """
         Creates an Amazon EKS node group.
         Args:
@@ -203,27 +177,6 @@ class Cluster:
 
         return response
 
-    def cluster_status(self, cluster_name):
-        """
-        Gets the status of an Amazon EKS cluster.
-        Args:
-            cluster_name (str): The name of the EKS cluster.
-        Returns:
-            str: The status of the EKS cluster.
-        Raises:
-            botocore.exceptions.ClientError: If there is an error getting the EKS cluster status.
-        """
-
-        eks_client = boto3.client('eks')
-
-        try:
-            response = eks_client.describe_cluster(name=cluster_name)
-        except botocore.exceptions.ClientError as e:
-            Console.error(f"Unable to get EKS cluster status: {e}")
-            sys.exit()
-
-        return response['cluster']['status']
-
     def delete_nodegroup(self, cluster_name, nodegroup_name):
         """
         Deletes an Amazon EKS node group.
@@ -246,10 +199,32 @@ class Cluster:
         except botocore.exceptions.ClientError as e:
             Console.error(f"Error deleting EKS node group: {e}")
             sys.exit()
-        
+
         return response
 
-    def delete_cluster(self, cluster_name):
+    def status(self, cluster_name):
+        """
+        Gets the status of an Amazon EKS cluster.
+        Args:
+            cluster_name (str): The name of the EKS cluster.
+        Returns:
+            str: The status of the EKS cluster.
+        Raises:
+            botocore.exceptions.ClientError: If there is an error getting the EKS cluster status.
+        """
+
+        eks_client = boto3.client('eks')
+
+        try:
+            response = eks_client.describe_cluster(name=cluster_name)
+        except botocore.exceptions.ClientError as e:
+            Console.error(f"Unable to get EKS cluster status: {e}")
+            sys.exit()
+
+        return response['cluster']['status']
+
+
+    def delete(self, cluster_name):
         """
         Deletes an Amazon EKS cluster.
         Args:
@@ -297,9 +272,6 @@ class Cluster:
 
             return
 
-
-
-
         eks_client = boto3.client('eks')
         try:    
             response = eks_client.describe_cluster(name=name)
@@ -311,7 +283,7 @@ class Cluster:
         print(response)
         return response
 
-    def export_cluster_config(self, cluster_name, config_file):
+    def export_config(self, cluster_name, config_file):
         """
         Dumps the configuration of an Amazon EKS cluster to a file.
         Args:
@@ -504,6 +476,35 @@ class Cluster:
         return [subnet1, subnet2]
 
 
+    # def create_eks_cluster(self, cluster_name, role_arn, subnet_ids, security_group_ids):
+    #     """
+    #     Creates an Amazon Elastic Kubernetes Service (EKS) cluster.
+    #     Args:
+    #         cluster_name (str): The name of the cluster.
+    #         role_arn (str): The Amazon Resource Name (ARN) of the IAM role that provides permissions for the EKS cluster.
+    #         subnet_ids (list): A list of subnet IDs where the EKS cluster will be created.
+    #         security_group_ids (list): A list of security group IDs associated with the EKS cluster.
+    #     Returns:
+    #         dict: A dictionary containing the response from the create_cluster API call.
+    #     Raises:
+    #         botocore.exceptions.ClientError: If there is an error creating the EKS cluster.
+    #     """
+    #
+    #     eks_client = boto3.client('eks')
+    #
+    #     try:
+    #         response = eks_client.create_cluster(
+    #             name=cluster_name,
+    #             roleArn=role_arn,
+    #             resourcesVpcConfig={
+    #                 'subnetIds': subnet_ids
+    #             }
+    #         )
+    #     except botocore.exceptions.ClientError as e:
+    #         Console.error(f"Error creating EKS cluster: {e}")
+    #         sys.exit()
+    #
+    #     return response
 
 
     # Usage:

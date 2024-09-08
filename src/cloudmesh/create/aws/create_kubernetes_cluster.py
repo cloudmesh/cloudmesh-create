@@ -7,10 +7,6 @@ import botocore
 from cloudmesh.common.StopWatch import StopWatch
 from cloudmesh.common.console import Console
 from cloudmesh.common.util import path_expand
-from cloudmesh.common.dotdict import dotdict
-
-from cloudmesh.common.FlatDict import FlatDict
-
 
 class deploy_cluster:
         
@@ -27,13 +23,13 @@ class deploy_cluster:
         if config is None:
             config = path_expand(config)
         try:
-
-            self.config = FlatDict()
-            self.config.loadf(config)
-
+            with open(config) as file:
+              self.config_data = yaml.load(file, Loader=yaml.FullLoader)
         except FileNotFoundError:
             Console.error("The specified file does not exist.")
             sys.exit()
+
+        self.config = config
 
         if dryrun:
             return
@@ -52,7 +48,7 @@ class deploy_cluster:
             Console.error(f"Error getting EKS cluster role: {e}")
             sys.exit()
         
-        cluster_name = (self.config.get('cloudmesh')['cluster']['aws'][0]['name'])
+        cluster_name = (self.config_data.get('cloudmesh')['cluster']['aws'][0]['name'])
 
         try:
             subnet_ids = self.get_subnets_for_eks() 
@@ -93,7 +89,7 @@ class deploy_cluster:
             Console.error(f"Error getting EKS Node role: {e}")
             sys.exit()
 
-        for ng in self.config.get('cloudmesh')['cluster']['aws'][0]['nodegroups']:
+        for ng in self.config_data.get('cloudmesh')['cluster']['aws'][0]['nodegroups']:
           
           node_group_name = (ng)['name']
           instance_type = (ng)['instanceType']
@@ -271,7 +267,10 @@ class deploy_cluster:
 
     def view_config(self):
 
-        print(self.config)
+        from pprint import pprint
+
+        pprint (self.config)
+        pprint (self.config_data)
 
 
     def info(self, name=None, detail=True, dryrun=False):

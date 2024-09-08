@@ -35,6 +35,11 @@ class deploy_cluster:
             Console.msg(f"DRY RUN of create {config}")
             return
 
+
+
+
+    def setup_cluster(self):
+
         # Create Cluster 
 
         # Check if role exists, if not create it.

@@ -90,6 +90,7 @@ class CreateCommand(PluginCommand):
         # cluster.list("just calling list without parameter")
         elif arguments.create:
             print("calling create")
+            cluster.setup()
             cluster.create(name=arguments.name, detail=True, dryrun=arguments.dryrun)
 
         return ""

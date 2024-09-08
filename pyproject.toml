@@ -9,15 +9,17 @@ requires = [
 [project]
 name = "cloudmesh-create"
 version = "5.0.20"
-description = "An example cloudmesh command"
+description = "Creation of a simple cluster on AWS using Kubernetes"
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 license = {file = "LICENSE"}
 authors = [
-  {name = "Gregor von Laszewski", email = "laszewski@gmail.com"}
+  {name = "Gregor von Laszewski", email = "laszewski@gmail.com"},
+  {name = "Harshad Pitkar", email = "harshpitkar@gmail.com"}
 ]
 maintainers = [
-  {name = "Gregor von Laszewski", email = "laszewski@gmail.com"}
+  {name = "Gregor von Laszewski", email = "laszewski@gmail.com"},
+  {name = "Harshad Pitkar", email = "harshpitkar@gmail.com"}
 ]
 keywords = ["helper library", "cloudmesh"]
 classifiers = [

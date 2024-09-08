@@ -8,7 +8,7 @@ from cloudmesh.common.StopWatch import StopWatch
 from cloudmesh.common.console import Console
 from cloudmesh.common.util import path_expand
 
-class deploy_cluster:
+class Cluster:
         
     def __init__(self, config=None, dt=600, dryrun=False):
         """

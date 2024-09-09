@@ -14,12 +14,10 @@ readme = "README.md"
 requires-python = ">=3.9"
 license = {file = "LICENSE"}
 authors = [
-  {name = "Gregor von Laszewski", email = "laszewski@gmail.com"},
-  {name = "Harshad Pitkar", email = "harshpitkar@gmail.com"}
+  {name = "Gregor von Laszewski", email = "laszewski@gmail.com"}
 ]
 maintainers = [
-  {name = "Gregor von Laszewski", email = "laszewski@gmail.com"},
-  {name = "Harshad Pitkar", email = "harshpitkar@gmail.com"}
+  {name = "Gregor von Laszewski", email = "laszewski@gmail.com"}
 ]
 keywords = ["helper library", "cloudmesh"]
 classifiers = [
@@ -65,4 +63,4 @@ Changelog = "https://github.com/cloudmesh/cloudmesh-create/blob/main/CHANGELOG.m
 
 [tool.setuptools.packages.find]
 where = ["src"]
-include = ["cloudmesh.create", "cloudmesh.create.*"]
+include = ["cloudmesh.create", "cloudmesh.create.*", "cloudmesh.create.aws.*"]

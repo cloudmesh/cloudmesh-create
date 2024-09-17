@@ -1,7 +1,6 @@
 cloudmesh:
   cluster:
     aws: 
-      - name: cluster-1
         nodegroups:
           - name: workers
             instanceType: t2.micro # instance type

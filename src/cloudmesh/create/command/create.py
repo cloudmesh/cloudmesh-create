@@ -21,7 +21,8 @@ class CreateCommand(PluginCommand):
           Usage:
             create [--provider=PROVIDER] [--kind=CLUSTERTYPE] [--gpus=GPU] [--nodes=NODES] [--config=CONFIG] [--dryrun] --name=NAME
             create info [--name=NAME] [--config=CONFIG] [--dryrun]
-                
+            create delete [--name=NAME] [--dryrun]
+
           This command creates a cluster on a given cloud provider. You can 
           either use the commandline arguments to specify the details of the 
           cluster or you can use the yaml file. The details of the cluster 
@@ -69,26 +70,36 @@ class CreateCommand(PluginCommand):
         arguments.kind = arguments.kind or "kubernetes"
         arguments.config = path_expand("./config.yaml")
 
+        #VERBOSE(arguments)
+        #print("Hello")
 
 
         if arguments.provider == 'aws' and arguments.kind == "kubernetes":
-            from cloudmesh.create.aws.create_kubernetes_cluster import Cluster
-            cluster = Cluster(config=arguments.config, dryrun=arguments.dryrun)
+           #print(arguments)
+           if arguments.info:
+             from cloudmesh.create.create import Cluster
+             Console.ok("calling info")
+
+             Cluster.info(name=arguments.name, detail=True, dryrun=arguments.dryrun)
+
+            # cluster.list("just calling list without parameter")
+           elif arguments.delete:
+              from cloudmesh.create.create import Cluster
+              Console.ok("calling delete")
+              deleteStatus = Cluster.delete('',name=arguments.name, dryrun=arguments.dryrun)
+              print(deleteStatus)
+              
+           else: #if arguments.create: Discuss about this condition
+             print("calling create 1")
+             print(arguments.name)
+             from cloudmesh.create.create import Cluster
+             cluster = Cluster(config=arguments.config, cluster_name=arguments.name, dryrun=arguments.dryrun)
+              
+             print(type(cluster))
+             
+             #return ""
         else:
             Console.error("This cluser provider and kind are not yet supported")
             return ""
 
-
-
-        if arguments.info:
-            Console.ok("calling info")
-
-            cluster.info(name=arguments.name, detail=True, dryrun=True)
-
-        # cluster.list("just calling list without parameter")
-        elif arguments.create:
-            print("calling create")
-            cluster.setup()
-            cluster.create(name=arguments.name, detail=True, dryrun=arguments.dryrun)
-
-        return ""
+        

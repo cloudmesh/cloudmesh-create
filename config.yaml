@@ -1,41 +1,11 @@
 cloudmesh:
   cluster:
-    aws: 
-        size: SMALL #| MEDIUM | LARGE | XLARGE | CUSTOM
-        nodegroups:
-          - name: workers01
-            instanceType: t2.micro # instance type
-            desiredCapacity: 1 # number of nodes
-            volumeSize: 20 #min size in GB
-            capacityType: 'SPOT' # SPOT or ONDEMAND
-          # - name: workers02
-          #   instanceType: t2.medium # instance type
-          #   desiredCapacity: 1 # number of nodes
-          #   volumeSize: 20 #min size in GB
-          #   capacityType: 'SPOT' # SPOT or ONDEMAND
-          # - name: workers03
-          #   instanceType: t2.micro # instance type
-          #   desiredCapacity: 1 # number of nodes
-          #   volumeSize: 20 #min size in GB
-          #   capacityType: 'ONDEMAND' # SPOT or ONDEMAND
-
-
-# cloudmesh:
-#   cluster:
-#     aws: 
-#         nodegroups:
-#           - name: workers
-#             instanceType: t2.micro # instance type
-#             desiredCapacity: 1 # number of nodes
-#             volumeSize: 20 # 20 is min size in GB
-#             capacityType: 'SPOT' # SPOT or ON_DEMAND
-#           - name: managers
-#             instanceType: t2.micro # instance type
-#             desiredCapacity: 1 # number of nodes
-#             volumeSize: 20 # 20 is min size in GB
-#             capacityType: 'SPOT' # SPOT or ON_DEMAND
-#           - name: employees
-#             instanceType: t2.micro # instance type
-#             desiredCapacity: 1 # number of nodes
-#             volumeSize: 20 # 20 is min size in GB
-#             capacityType: 'SPOT' # SPOT or ON_DEMAND
+    aws:
+      kind: kubernetes #| kubernetes
+      size: SMALL #| MEDIUM | LARGE | XLARGE | CUSTOM
+      nodegroups:
+        - name: workers01
+          instanceType: t2.micro # instance type
+          desiredCapacity: 1 # number of nodes
+          volumeSize: 28 #min size for EKS 20 GB, for PCS 128 GB
+          capacityType: 'SPOT' # SPOT or ONDEMAND

@@ -16,7 +16,7 @@
 [![Windows](https://img.shields.io/badge/OS-Windows-blue.svg)](https://www.microsoft.com/windows)
 
 
-Cloudmesh create simplifies the infrastructure deployment of HPC clusters or Kubernetes clusters. It creates an abstraction layer for the end user such as scientists 
+Cloudmesh create plug-in simplifies the infrastructure deployment of HPC clusters or Kubernetes clusters. It creates an abstraction layer for the end user such as scientists 
 who intend to run their simulations and analyze results of experiments. They can focus on the outcomes of the experiments rather than spending time in 
 building infrastructure to run their experiments. 
 Using cloudmesh create, compute infrastructure can be stood up in minutes, once the work is complete, clusters can be deleted to save on cloud billing cost.

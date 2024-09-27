@@ -1,11 +1,11 @@
 cloudmesh:
   cluster:
     aws:
-      kind: kubernetes #| kubernetes
+      kind: PCS #| kubernetes
       size: SMALL #| MEDIUM | LARGE | XLARGE | CUSTOM
       nodegroups:
         - name: workers01
           instanceType: t2.micro # instance type
           desiredCapacity: 1 # number of nodes
-          volumeSize: 28 #min size for EKS 20 GB, for PCS 128 GB
+          volumeSize: 128 #min size for EKS 20 GB, for PCS 128 GB
           capacityType: 'SPOT' # SPOT or ONDEMAND
